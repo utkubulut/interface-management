@@ -1,0 +1,184 @@
+###
+POST http://localhost:4004/catalog/MasterdataApplications
+Content-Type: application/json
+
+{
+    "dataApplicationID": "test2upsert",
+    "externalID": "app-external-id-upsert",
+    "dataApplicationName": "Application Name Change",
+    "dataApplicationURL": "https://example.com/app",
+    "lastModified": "2023-08-09T12:00:00Z",
+    "description": "Application Description",
+    "timeClassification": "Time Class",
+    "r6Classification": "R6 Class",
+    "businessCriticality": "High",
+    "functionalFit": "Fit",
+    "technicalFit": "Fit"
+}
+
+###
+POST http://localhost:4004/catalog/MasterdataObjects
+Content-Type: application/json
+
+{
+     "dataObjectID": "12345",
+    "dataObjectName": "Object Name Change",
+    "dataObjectURL": "https://example.com/object",
+    "externalID": "object-external-id",
+    "lastModified": "2023-08-09T12:00:00Z",
+    "description": "Object Description",
+    "classification": "Class"
+}
+
+###
+POST http://localhost:4004/catalog/MasterdataProcesses
+Content-Type: application/json
+
+{
+    "dataProcessID": "12345",
+    "dataProcessURL": "https://example.com/process",
+    "externalID": "process-external-id",
+    "dataProcessName": "Process Name Change",
+    "lastModified": "2023-08-09T12:00:00Z",
+    "description": "Process Description",
+    "processMaturity": "Mature"
+}
+
+###
+POST http://localhost:4004/catalog/InterfaceReceivers
+Content-Type: application/json
+
+{
+    "ID": "12345",
+    "name": "Receiver Name",
+    "interfaceID": "67890"
+}
+
+###
+POST http://localhost:4004/catalog/InterfaceIntegrations
+Content-Type: application/json
+
+{
+    "interfaceID": "12345",
+    "integrationID": "67890"
+}
+
+###
+POST http://localhost:4004/catalog/DataCloudIntegrations
+Content-Type: application/json
+
+{
+  "integrationID": "12345",
+    "sender": "Sender Name",
+    "artifactContent": "Artifact Content",
+    "description": "Integration Description",
+    "version": "1.0",
+    "receiver": "Receiver Name",
+    "integrationName": "Integration Name",
+    "status": "Active",
+    "deployedOn": "2023-08-09T12:00:00Z",
+    "type": "Type",
+    "deployedBy": "Deployed By",
+    "package": "Package Name",
+    "flow": "Flow Name",
+    "integrationURL": "https://example.com/integration"
+}
+
+###
+POST http://localhost:4004/catalog/DataCloudIntegrations
+Content-Type: application/json
+
+{
+  "integrationID": "12345",
+    "sender": "Sender Name",
+    "artifactContent": "Artifact Content",
+    "description": "Integration Description",
+    "version": "1.0",
+    "receiver": "Receiver Name",
+    "integrationName": "Integration Name",
+    "status": "Active",
+    "deployedOn": "2023-08-09T12:00:00Z",
+    "type": "Type",
+    "deployedBy": "Deployed By",
+    "package": "Package Name",
+    "flow": "Flow Name",
+    "integrationURL": "https://example.com/integration"
+}
+
+###
+POST http://localhost:4004/catalog/integrateInterface
+Content-Type: application/json
+
+{
+  "body":{
+    "interfaceID": "12345",
+    "name": "Interface Name",
+    "receivers": [
+        {    
+          "ID": "12345",
+          "name": "Receiver Name",
+          "interfaceID": "67890"
+
+        },
+        {
+          "ID": "12345",
+          "name": "Receiver Name",
+          "interfaceID": "67890"
+        }
+    ]
+  }
+}
+
+###
+POST http://localhost:4004/catalog/addCloudIntegration
+Content-Type: application/json
+
+{
+  "interfaceID_interfaceID" : [],
+  "integrationID_integrationID" : []
+}
+
+###
+POST http://localhost:4004/catalog/deleteInterfaces
+Content-Type: application/json
+
+{
+  "interfaceIDs":[]
+}
+
+###
+POST http://localhost:4004/catalog/editInterface
+Content-Type: application/json
+
+{
+  "body":{
+    "interfaceID": "12345",
+    "name": "Interface Name",
+    "description": "Interface Description",
+    "status": "Active",
+    "senderID": "sender-123",
+    "dataProcessID": "process-456",
+    "dataObjectID": "object-789",
+    "receivers": [
+        {    
+          "ID": "12345",
+          "name": "Receiver Name",
+          "interfaceID": "67890"
+
+        },
+        {
+          "ID": "12345",
+          "name": "Receiver Name",
+          "interfaceID": "67890"
+        }
+    ]
+  }
+}
+
+###
+PATCH http://localhost:4004/catalog/InterfaceTableData('3A19132ED795D75E07728C8A3910E6F5')
+Content-Type: application/json
+
+{
+  "externalID" : "testforexternals"
+}

@@ -1,0 +1,15 @@
+== version=1
+COLUMN TABLE ndbs_itfmanager_MasterdataObjects (
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  dataObjectID NVARCHAR(40) NOT NULL,
+  dataObjectName NVARCHAR(100),
+  dataObjectURL NVARCHAR(2048),
+  externalID NVARCHAR(100),
+  lastModified SECONDDATE,
+  description NVARCHAR(5000),
+  classification NVARCHAR(20),
+  PRIMARY KEY(dataObjectID)
+)

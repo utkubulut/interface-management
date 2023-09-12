@@ -1,0 +1,13 @@
+== version=1
+COLUMN TABLE ndbs_itfmanager_InterfaceReceivers (
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  ID NVARCHAR(120) NOT NULL,
+  name NVARCHAR(120),
+  interface_interfaceID NVARCHAR(32) NOT NULL,
+  PRIMARY KEY(ID, interface_interfaceID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN ndbs_itfmanager_Interfaces AS interface ON (interface.interfaceID = interface_interfaceID)
+)

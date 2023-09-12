@@ -1,0 +1,85 @@
+{
+    "name": "ndbs-itf-manager",
+    "version": "1.0.0",
+    "description": "A simple CAP project.",
+    "repository": "<Add your repository here>",
+    "license": "UNLICENSED",
+    "private": true,
+    "dependencies": {
+        "@sap/cds": "^6",
+        "@sap/cds-dk": "^6.7.0",
+        "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
+        "@sap/hdi-deploy": "^4.8.0",
+        "@sap/textbundle": "^3.1.0",
+        "@sap/xb-msg": "^0.9.12",
+        "@sap/xb-msg-amqp-v100": "^0.9.58",
+        "@sap/xb-msg-env": "^0.9.8",
+        "@sap/xsenv": "^3.4.0",
+        "@sap/xssec": "^3",
+        "express": "^4",
+        "hdb": "^0.19.0",
+        "passport": "^0",
+        "uuid": "^9.0.0",
+        "xlsx": "^0.18.5"
+    },
+    "devDependencies": {
+        "@sap/ux-specification": "^1.108.3",
+        "rimraf": "^3.0.2",
+        "sqlite3": "^5.0.4"
+    },
+    "scripts": {
+        "start": "cds watch",
+        "undeploy": "cf undeploy ndbs-itf-manager --delete-services --delete-service-keys --delete-service-brokers",
+        "build": "rimraf resources mta_archives && mbt build --mtar archive",
+        "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
+        "watch-ndbs-itf-manager-ui": "cds watch --open ndbs-itf-manager-ui/webapp/index.html?sap-ui-xx-viewCache=false",
+        "watch-app": "cds watch --open app/webapp/index.html?sap-ui-xx-viewCache=false"
+    },
+    "engines": {
+        "node": "^16.15"
+    },
+    "eslintConfig": {
+        "extends": "eslint:recommended",
+        "env": {
+            "es2020": true,
+            "node": true,
+            "jest": true,
+            "mocha": true
+        },
+        "globals": {
+            "SELECT": true,
+            "INSERT": true,
+            "UPDATE": true,
+            "DELETE": true,
+            "CREATE": true,
+            "DROP": true,
+            "CDL": true,
+            "CQL": true,
+            "CXL": true,
+            "cds": true
+        },
+        "rules": {
+            "no-console": "off",
+            "require-atomic-updates": "off"
+        }
+    },
+    "cds": {
+        "requires": {
+            "db": {
+                "kind": "hana-cloud"
+            },
+            "uaa": {
+                "kind": "xsuaa"
+            },
+            "auth": {
+                "kind": "jwt-auth"
+            },
+            "messaging": {
+                "kind": "enterprise-messaging"
+            }
+        }
+    },
+    "sapux": [
+        "app/ndbs-itf-manager-ui"
+    ]
+}

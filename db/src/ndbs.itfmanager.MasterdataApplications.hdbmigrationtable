@@ -1,0 +1,19 @@
+== version=1
+COLUMN TABLE ndbs_itfmanager_MasterdataApplications (
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  dataApplicationID NVARCHAR(40) NOT NULL,
+  externalID NVARCHAR(100),
+  dataApplicationName NVARCHAR(100),
+  dataApplicationURL NVARCHAR(2048),
+  lastModified SECONDDATE,
+  description NVARCHAR(5000),
+  timeClassification NVARCHAR(20),
+  r6Classification NVARCHAR(20),
+  businessCriticality NVARCHAR(20),
+  functionalFit NVARCHAR(20),
+  technicalFit NVARCHAR(20),
+  PRIMARY KEY(dataApplicationID)
+)

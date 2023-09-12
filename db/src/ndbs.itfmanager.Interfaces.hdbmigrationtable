@@ -1,0 +1,19 @@
+== version=1
+COLUMN TABLE ndbs_itfmanager_Interfaces (
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  interfaceID NVARCHAR(32) NOT NULL,
+  externalID NVARCHAR(36),
+  name NVARCHAR(120) NOT NULL,
+  description NVARCHAR(5000),
+  status NVARCHAR(5),
+  senderID NVARCHAR(120),
+  dataProcessID NVARCHAR(120),
+  dataObjectID NVARCHAR(120),
+  PRIMARY KEY(interfaceID)
+) WITH ASSOCIATIONS (
+  MANY TO MANY JOIN ndbs_itfmanager_InterfaceReceivers AS receiver ON (receiver.interface_interfaceID = interfaceID),
+  MANY TO MANY JOIN ndbs_itfmanager_InterfaceIntegrations AS integration ON (integration.interfaceID_interfaceID = interfaceID)
+)

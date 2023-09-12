@@ -1,0 +1,791 @@
+{
+  "namespace": "ndbs.itfmanager",
+  "definitions": {
+    "ndbs.itfmanager.Interfaces": {
+      "kind": "entity",
+      "@cds.persistence.journal": true,
+      "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "type": "cds.UTCTimestamp",
+          "@cds.persistence.name": "CREATEDAT"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "cds.String",
+          "length": 255,
+          "@cds.persistence.name": "CREATEDBY"
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "type": "cds.UTCTimestamp",
+          "@cds.persistence.name": "MODIFIEDAT"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "cds.String",
+          "length": 255,
+          "@cds.persistence.name": "MODIFIEDBY"
+        },
+        "interfaceID": {
+          "key": true,
+          "type": "cds.String",
+          "length": 32,
+          "@cds.persistence.name": "INTERFACEID"
+        },
+        "externalID": {
+          "type": "cds.String",
+          "length": 36,
+          "@cds.persistence.name": "EXTERNALID"
+        },
+        "name": {
+          "type": "cds.String",
+          "length": 120,
+          "notNull": true,
+          "@cds.persistence.name": "NAME"
+        },
+        "description": {
+          "type": "cds.String",
+          "length": 5000,
+          "@cds.persistence.name": "DESCRIPTION"
+        },
+        "status": {
+          "@assert.range": true,
+          "type": "cds.String",
+          "length": 5,
+          "@cds.persistence.name": "STATUS"
+        },
+        "senderID": {
+          "type": "cds.String",
+          "length": 120,
+          "@cds.persistence.name": "SENDERID"
+        },
+        "receiver": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "ndbs.itfmanager.InterfaceReceivers",
+          "on": [
+            {
+              "ref": [
+                "receiver",
+                "interface_interfaceID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "interfaceID"
+              ]
+            }
+          ],
+          "@cds.persistence.name": "RECEIVER"
+        },
+        "dataProcessID": {
+          "type": "cds.String",
+          "length": 120,
+          "@cds.persistence.name": "DATAPROCESSID"
+        },
+        "dataObjectID": {
+          "type": "cds.String",
+          "length": 120,
+          "@cds.persistence.name": "DATAOBJECTID"
+        },
+        "integration": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "ndbs.itfmanager.InterfaceIntegrations",
+          "on": [
+            {
+              "ref": [
+                "integration",
+                "interfaceID_interfaceID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "interfaceID"
+              ]
+            }
+          ],
+          "@cds.persistence.name": "INTEGRATION"
+        }
+      },
+      "@cds.persistence.name": "NDBS_ITFMANAGER_INTERFACES"
+    },
+    "ndbs.itfmanager.InterfaceReceivers": {
+      "kind": "entity",
+      "@cds.persistence.journal": true,
+      "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "type": "cds.UTCTimestamp",
+          "@cds.persistence.name": "CREATEDAT"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "cds.String",
+          "length": 255,
+          "@cds.persistence.name": "CREATEDBY"
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "type": "cds.UTCTimestamp",
+          "@cds.persistence.name": "MODIFIEDAT"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "cds.String",
+          "length": 255,
+          "@cds.persistence.name": "MODIFIEDBY"
+        },
+        "ID": {
+          "key": true,
+          "type": "cds.String",
+          "length": 120,
+          "@cds.persistence.name": "ID"
+        },
+        "name": {
+          "type": "cds.String",
+          "length": 120,
+          "@cds.persistence.name": "NAME"
+        },
+        "interface": {
+          "type": "cds.Association",
+          "target": "ndbs.itfmanager.Interfaces",
+          "keys": [
+            {
+              "ref": [
+                "interfaceID"
+              ],
+              "as": "interfaceID",
+              "$generatedFieldName": "interface_interfaceID"
+            }
+          ],
+          "on": [
+            {
+              "ref": [
+                "interface",
+                "interfaceID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "interface_interfaceID"
+              ]
+            }
+          ],
+          "@cds.persistence.name": "INTERFACE"
+        },
+        "interface_interfaceID": {
+          "type": "cds.String",
+          "length": 32,
+          "@odata.foreignKey4": "interface",
+          "key": true,
+          "@cds.persistence.name": "INTERFACE_INTERFACEID"
+        }
+      },
+      "@cds.persistence.name": "NDBS_ITFMANAGER_INTERFACERECEIVERS"
+    },
+    "ndbs.itfmanager.InterfaceIntegrations": {
+      "kind": "entity",
+      "@cds.persistence.journal": true,
+      "elements": {
+        "interfaceID": {
+          "type": "cds.Association",
+          "target": "ndbs.itfmanager.Interfaces",
+          "keys": [
+            {
+              "ref": [
+                "interfaceID"
+              ],
+              "as": "interfaceID",
+              "$generatedFieldName": "interfaceID_interfaceID"
+            }
+          ],
+          "on": [
+            {
+              "ref": [
+                "interfaceID",
+                "interfaceID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "interfaceID_interfaceID"
+              ]
+            }
+          ],
+          "@cds.persistence.name": "INTERFACEID"
+        },
+        "interfaceID_interfaceID": {
+          "type": "cds.String",
+          "length": 32,
+          "@odata.foreignKey4": "interfaceID",
+          "key": true,
+          "@cds.persistence.name": "INTERFACEID_INTERFACEID"
+        },
+        "integrationID": {
+          "type": "cds.Association",
+          "target": "ndbs.itfmanager.DataCloudIntegrations",
+          "keys": [
+            {
+              "ref": [
+                "integrationID"
+              ],
+              "as": "integrationID",
+              "$generatedFieldName": "integrationID_integrationID"
+            }
+          ],
+          "on": [
+            {
+              "ref": [
+                "integrationID",
+                "integrationID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "integrationID_integrationID"
+              ]
+            }
+          ],
+          "@cds.persistence.name": "INTEGRATIONID"
+        },
+        "integrationID_integrationID": {
+          "type": "cds.String",
+          "length": 120,
+          "@odata.foreignKey4": "integrationID",
+          "key": true,
+          "@cds.persistence.name": "INTEGRATIONID_INTEGRATIONID"
+        }
+      },
+      "@cds.persistence.name": "NDBS_ITFMANAGER_INTERFACEINTEGRATIONS"
+    },
+    "ndbs.itfmanager.DataCloudIntegrations": {
+      "kind": "entity",
+      "@cds.persistence.journal": true,
+      "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "type": "cds.UTCTimestamp",
+          "@cds.persistence.name": "CREATEDAT"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "cds.String",
+          "length": 255,
+          "@cds.persistence.name": "CREATEDBY"
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "type": "cds.UTCTimestamp",
+          "@cds.persistence.name": "MODIFIEDAT"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "cds.String",
+          "length": 255,
+          "@cds.persistence.name": "MODIFIEDBY"
+        },
+        "integrationID": {
+          "key": true,
+          "type": "cds.String",
+          "length": 120,
+          "@cds.persistence.name": "INTEGRATIONID"
+        },
+        "sender": {
+          "type": "cds.String",
+          "length": 120,
+          "@cds.persistence.name": "SENDER"
+        },
+        "artifactContent": {
+          "type": "cds.String",
+          "length": 120,
+          "@cds.persistence.name": "ARTIFACTCONTENT"
+        },
+        "description": {
+          "type": "cds.String",
+          "length": 5000,
+          "@cds.persistence.name": "DESCRIPTION"
+        },
+        "version": {
+          "type": "cds.String",
+          "length": 120,
+          "@cds.persistence.name": "VERSION"
+        },
+        "receiver": {
+          "type": "cds.String",
+          "length": 120,
+          "@cds.persistence.name": "RECEIVER"
+        },
+        "integrationName": {
+          "type": "cds.String",
+          "length": 120,
+          "@cds.persistence.name": "INTEGRATIONNAME"
+        },
+        "status": {
+          "type": "cds.String",
+          "length": 120,
+          "@cds.persistence.name": "STATUS"
+        },
+        "deployedOn": {
+          "type": "cds.UTCDateTime",
+          "@cds.persistence.name": "DEPLOYEDON"
+        },
+        "type": {
+          "type": "cds.String",
+          "length": 20,
+          "@cds.persistence.name": "TYPE"
+        },
+        "deployedBy": {
+          "type": "cds.String",
+          "length": 60,
+          "@cds.persistence.name": "DEPLOYEDBY"
+        },
+        "package": {
+          "type": "cds.String",
+          "length": 120,
+          "@cds.persistence.name": "PACKAGE"
+        },
+        "flow": {
+          "type": "cds.String",
+          "length": 120,
+          "@cds.persistence.name": "FLOW"
+        },
+        "integrationURL": {
+          "type": "cds.String",
+          "length": 2048,
+          "@cds.persistence.name": "INTEGRATIONURL"
+        },
+        "interface": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "ndbs.itfmanager.InterfaceIntegrations",
+          "on": [
+            {
+              "ref": [
+                "interface",
+                "integrationID_integrationID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "integrationID"
+              ]
+            }
+          ],
+          "@cds.persistence.name": "INTERFACE"
+        }
+      },
+      "@cds.persistence.name": "NDBS_ITFMANAGER_DATACLOUDINTEGRATIONS"
+    },
+    "ndbs.itfmanager.MasterdataApplications": {
+      "kind": "entity",
+      "@cds.persistence.journal": true,
+      "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "type": "cds.UTCTimestamp",
+          "@cds.persistence.name": "CREATEDAT"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "cds.String",
+          "length": 255,
+          "@cds.persistence.name": "CREATEDBY"
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "type": "cds.UTCTimestamp",
+          "@cds.persistence.name": "MODIFIEDAT"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "cds.String",
+          "length": 255,
+          "@cds.persistence.name": "MODIFIEDBY"
+        },
+        "dataApplicationID": {
+          "key": true,
+          "type": "cds.String",
+          "length": 40,
+          "@cds.persistence.name": "DATAAPPLICATIONID"
+        },
+        "externalID": {
+          "type": "cds.String",
+          "length": 100,
+          "@cds.persistence.name": "EXTERNALID"
+        },
+        "dataApplicationName": {
+          "type": "cds.String",
+          "length": 100,
+          "@cds.persistence.name": "DATAAPPLICATIONNAME"
+        },
+        "dataApplicationURL": {
+          "type": "cds.String",
+          "length": 2048,
+          "@cds.persistence.name": "DATAAPPLICATIONURL"
+        },
+        "lastModified": {
+          "type": "cds.UTCDateTime",
+          "@cds.persistence.name": "LASTMODIFIED"
+        },
+        "description": {
+          "type": "cds.String",
+          "length": 5000,
+          "@cds.persistence.name": "DESCRIPTION"
+        },
+        "timeClassification": {
+          "type": "cds.String",
+          "length": 20,
+          "@cds.persistence.name": "TIMECLASSIFICATION"
+        },
+        "r6Classification": {
+          "type": "cds.String",
+          "length": 20,
+          "@cds.persistence.name": "R6CLASSIFICATION"
+        },
+        "businessCriticality": {
+          "type": "cds.String",
+          "length": 20,
+          "@cds.persistence.name": "BUSINESSCRITICALITY"
+        },
+        "functionalFit": {
+          "type": "cds.String",
+          "length": 20,
+          "@cds.persistence.name": "FUNCTIONALFIT"
+        },
+        "technicalFit": {
+          "type": "cds.String",
+          "length": 20,
+          "@cds.persistence.name": "TECHNICALFIT"
+        }
+      },
+      "@cds.persistence.name": "NDBS_ITFMANAGER_MASTERDATAAPPLICATIONS"
+    },
+    "ndbs.itfmanager.MasterdataObjects": {
+      "kind": "entity",
+      "@cds.persistence.journal": true,
+      "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "type": "cds.UTCTimestamp",
+          "@cds.persistence.name": "CREATEDAT"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "cds.String",
+          "length": 255,
+          "@cds.persistence.name": "CREATEDBY"
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "type": "cds.UTCTimestamp",
+          "@cds.persistence.name": "MODIFIEDAT"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "cds.String",
+          "length": 255,
+          "@cds.persistence.name": "MODIFIEDBY"
+        },
+        "dataObjectID": {
+          "key": true,
+          "type": "cds.String",
+          "length": 40,
+          "@cds.persistence.name": "DATAOBJECTID"
+        },
+        "dataObjectName": {
+          "type": "cds.String",
+          "length": 100,
+          "@cds.persistence.name": "DATAOBJECTNAME"
+        },
+        "dataObjectURL": {
+          "type": "cds.String",
+          "length": 2048,
+          "@cds.persistence.name": "DATAOBJECTURL"
+        },
+        "externalID": {
+          "type": "cds.String",
+          "length": 100,
+          "@cds.persistence.name": "EXTERNALID"
+        },
+        "lastModified": {
+          "type": "cds.UTCDateTime",
+          "@cds.persistence.name": "LASTMODIFIED"
+        },
+        "description": {
+          "type": "cds.String",
+          "length": 5000,
+          "@cds.persistence.name": "DESCRIPTION"
+        },
+        "classification": {
+          "type": "cds.String",
+          "length": 20,
+          "@cds.persistence.name": "CLASSIFICATION"
+        }
+      },
+      "@cds.persistence.name": "NDBS_ITFMANAGER_MASTERDATAOBJECTS"
+    },
+    "ndbs.itfmanager.MasterdataProcesses": {
+      "kind": "entity",
+      "@cds.persistence.journal": true,
+      "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "type": "cds.UTCTimestamp",
+          "@cds.persistence.name": "CREATEDAT"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "cds.String",
+          "length": 255,
+          "@cds.persistence.name": "CREATEDBY"
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "type": "cds.UTCTimestamp",
+          "@cds.persistence.name": "MODIFIEDAT"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "cds.String",
+          "length": 255,
+          "@cds.persistence.name": "MODIFIEDBY"
+        },
+        "dataProcessID": {
+          "key": true,
+          "type": "cds.String",
+          "length": 40,
+          "@cds.persistence.name": "DATAPROCESSID"
+        },
+        "dataProcessURL": {
+          "type": "cds.String",
+          "length": 2048,
+          "@cds.persistence.name": "DATAPROCESSURL"
+        },
+        "externalID": {
+          "type": "cds.String",
+          "length": 100,
+          "@cds.persistence.name": "EXTERNALID"
+        },
+        "dataProcessName": {
+          "type": "cds.String",
+          "length": 100,
+          "@cds.persistence.name": "DATAPROCESSNAME"
+        },
+        "lastModified": {
+          "type": "cds.UTCDateTime",
+          "@cds.persistence.name": "LASTMODIFIED"
+        },
+        "description": {
+          "type": "cds.String",
+          "length": 5000,
+          "@cds.persistence.name": "DESCRIPTION"
+        },
+        "processMaturity": {
+          "type": "cds.String",
+          "length": 20,
+          "@cds.persistence.name": "PROCESSMATURITY"
+        }
+      },
+      "@cds.persistence.name": "NDBS_ITFMANAGER_MASTERDATAPROCESSES"
+    }
+  },
+  "meta": {
+    "creator": "CDS Compiler v3.8.0",
+    "build": "CDS Build v6.7.0"
+  },
+  "$version": "2.0"
+}

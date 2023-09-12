@@ -1,0 +1,24 @@
+== version=1
+COLUMN TABLE ndbs_itfmanager_DataCloudIntegrations (
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  integrationID NVARCHAR(120) NOT NULL,
+  sender NVARCHAR(120),
+  artifactContent NVARCHAR(120),
+  description NVARCHAR(5000),
+  version NVARCHAR(120),
+  receiver NVARCHAR(120),
+  integrationName NVARCHAR(120),
+  status NVARCHAR(120),
+  deployedOn SECONDDATE,
+  type NVARCHAR(20),
+  deployedBy NVARCHAR(60),
+  package NVARCHAR(120),
+  flow NVARCHAR(120),
+  integrationURL NVARCHAR(2048),
+  PRIMARY KEY(integrationID)
+) WITH ASSOCIATIONS (
+  MANY TO MANY JOIN ndbs_itfmanager_InterfaceIntegrations AS interface ON (interface.integrationID_integrationID = integrationID)
+)

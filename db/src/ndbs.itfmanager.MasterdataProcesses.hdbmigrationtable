@@ -1,0 +1,15 @@
+== version=1
+COLUMN TABLE ndbs_itfmanager_MasterdataProcesses (
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  dataProcessID NVARCHAR(40) NOT NULL,
+  dataProcessURL NVARCHAR(2048),
+  externalID NVARCHAR(100),
+  dataProcessName NVARCHAR(100),
+  lastModified SECONDDATE,
+  description NVARCHAR(5000),
+  processMaturity NVARCHAR(20),
+  PRIMARY KEY(dataProcessID)
+)

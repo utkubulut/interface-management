@@ -1,0 +1,9 @@
+== version=1
+COLUMN TABLE ndbs_itfmanager_InterfaceIntegrations (
+  interfaceID_interfaceID NVARCHAR(32) NOT NULL,
+  integrationID_integrationID NVARCHAR(120) NOT NULL,
+  PRIMARY KEY(interfaceID_interfaceID, integrationID_integrationID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN ndbs_itfmanager_Interfaces AS interfaceID ON (interfaceID.interfaceID = interfaceID_interfaceID),
+  MANY TO ONE JOIN ndbs_itfmanager_DataCloudIntegrations AS integrationID ON (integrationID.integrationID = integrationID_integrationID)
+)

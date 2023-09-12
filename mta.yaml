@@ -1,0 +1,148 @@
+_schema-version: "3.1"
+ID: ndbs-itf-manager
+description: LeanIX Integration Cockpit
+version: 1.6.3
+modules:
+- name: ndbs-itf-manager-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: ndbs-itf-manager-auth
+  - name: ndbs-itf-manager-db
+  - name: ndbs-itf-mng-dest
+  - name: ndbs-itf-manager-messaging
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+    disk-quota: 1024M
+    keep-existing-routes: true
+    memory: 1024M
+  build-parameters:
+    builder: npm-ci
+- name: ndbs-itf-manager-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: ndbs-itf-manager-db
+  parameters:
+    buildpack: nodejs_buildpack
+- name: ndbs-itf-manager-content
+  type: com.sap.application.content
+  requires:
+  - name: ndbs-itf-mng-dest
+    parameters:
+      content-target: true
+  - name: ndbs-itf-manager-repo-host
+    parameters:
+      service-key:
+        name: ndbs-itf-manager-repo-host-key
+  - name: ndbs-itf-manager-auth
+    parameters:
+      service-key:
+        name: ndbs-itf-manager-auth-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: ndbs_itf_manager_ui_repo
+          ServiceInstanceName: ndbs-itf-manager-repo-host
+          ServiceKeyName: ndbs-itf-manager-repo-host-key
+          sap.cloud.service: ndbs-itf-manager-ui
+        - Authentication: OAuth2UserTokenExchange
+          Name: ndbs_itf_mng_auth
+          ServiceInstanceName: ndbs-itf-manager-auth
+          ServiceKeyName: ndbs-itf-manager-auth-key
+          sap.cloud.service: ndbs-itf-manager-ui
+        existing_destinations_policy: update
+  build-parameters:
+    no-source: true
+- name: ndbs-itf-manager-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: ndbs-itf-manager-repo-host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - ndbsitfmanagerui.zip
+      name: ndbsitfmanagerui
+      target-path: resources/
+- name: ndbsitfmanagerui
+  type: html5
+  path: app/ndbs-itf-manager-ui
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: ndbs-itf-manager-auth
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-plan: application
+
+- name: ndbs-itf-manager-messaging
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./enterprise-messaging.json
+    service: enterprise-messaging
+    service-plan: default
+   
+- name: ndbs-itf-manager-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+    deploy_mode: html5-repo
+- name: ndbs-itf-mng-dest
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          - Authentication: NoAuthentication
+            Description: CAP Backend OData Service Destination
+            HTML5.DynamicDestination: true
+            Name: srv-api
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}
+            HTML5.Timeout: 300000 
+            HTML5.ForwardAuthToken: true            
+          existing_destinations_policy: update
+    service: destination
+    service-name: ndbs-itf-mng-dest
+    service-plan: lite
+  requires:
+  - name: srv-api    
+- name: ndbs-itf-manager-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: ndbs-itf-manager-repo-host
+    service-plan: app-host
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npx -p @sap/cds-dk cds build --production
