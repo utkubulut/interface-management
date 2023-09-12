@@ -1,0 +1,8 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <SelectDialog id="languageDialog" title="Select Language" confirm=".onOpenLanguageConfirm" search=".onLanguageSearch" items="{
+			path: '/Languages'
+		}">
+        <StandardListItem title="{text}" description= "{code}" type="Active" />
+    </SelectDialog>
+</core:FragmentDefinition>

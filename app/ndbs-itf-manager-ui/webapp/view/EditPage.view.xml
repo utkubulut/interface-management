@@ -1,0 +1,103 @@
+<mvc:View xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:smarttable="sap.ui.comp.smarttable"
+    xmlns:sfb="sap.ui.comp.smartfilterbar"
+    xmlns:smartField="sap.ui.comp.smartfield"
+    xmlns:smartMultiInput="sap.ui.comp.smartmultiinput"
+    xmlns:tnt="sap.tnt"
+    xmlns:l="sap.ui.layout"
+    xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    xmlns:smartForm="sap.ui.comp.smartform" controllerName="ndbsitfmanagerui.controller.EditPage" height="100%">
+    <!-- <tnt:ToolHeader design="Solid" height="10%">
+        <ToolbarSpacer width="3%" />
+        <Image src="./img/leanix-logo-vector.png" height="100%" class="sapUiMediumMarginTop"  press="onNavToHomepage"/>
+        <Title titleStyle="H5" text="{i18n>appTitle}" wrapping="true" class="sapUiMediumMarginTop" />
+        <ToolbarSpacer />
+        <Image src="./img/Ntt.png" height="40%" class="sapUiMediumMarginTop" />
+        <ToolbarSpacer width="3%"/>
+        <ToolbarSpacer width="0.3%"/>
+    </tnt:ToolHeader> -->
+    <Page showFooter="true" enableScrolling="true">
+        <smartForm:SmartForm id="sfEdit" editable="true" title="{i18n>editInterfaceTitle}">
+            <smartForm:layout>
+                <smartForm:ColumnLayout columnsM="2" columnsL="3" columnsXL="4" labelCellsLarge="4"/>
+            </smartForm:layout>
+            <smartForm:Group title="{i18n>name}*" >
+                <smartForm:GroupElement>
+                    <smartField:SmartField id="sfName" showLabel="false" value="{name}" change="onInputValidationInput" changeModelValue="onChangeModel" />
+                </smartForm:GroupElement>
+            </smartForm:Group>
+            <smartForm:Group title="{i18n>sender}*">
+                <smartForm:GroupElement>
+                    <ComboBox id="cbSender" selectionChange="handleSelectionChange" items="{
+				        path: '/MasterdataApplications',
+				        sorter: { path: 'dataApplicationName' },
+                        length: 500   }" change="onInputValidationCB">
+                        <core:Item key="{dataApplicationID}" text="{dataApplicationName}"/>
+                    </ComboBox>
+                </smartForm:GroupElement>
+            </smartForm:Group>
+            <smartForm:Group title="{i18n>receivers}*">
+                <smartForm:GroupElement >
+                    <MultiComboBox id="cbReceiver" change="onInputValidationMCB" selectionFinish="handleSelectionFinish" items="{
+				        path: '/MasterdataApplications',
+				        sorter: { path: 'dataApplicationName' },
+                        length: 500 }">
+                        <core:Item key="{dataApplicationID}" text="{dataApplicationName}"/>
+                    </MultiComboBox>
+                </smartForm:GroupElement>
+            </smartForm:Group>
+            <smartForm:Group title="{i18n>description}*">
+                <smartForm:GroupElement>
+                    <smartField:SmartField id="sfDescription" showLabel="false" value="{description}" change="onInputValidationInput" clientSideMandatoryCheck="true" width="100%" changeModelValue="onInputValidationInput"/>
+                </smartForm:GroupElement>
+            </smartForm:Group>
+            <smartForm:Group title="{i18n>dataObject}">
+                <smartForm:GroupElement>
+                                  <ComboBox id="cbObject" selectionChange="handleSelectionChange" items="{
+				        path: '/MasterdataObjects',
+				        sorter: { path: 'dataObjectName' },
+                        length: 500   }" change="onInputValidationCB">
+                        <core:Item key="{dataObjectID}" text="{dataObjectName}"/>
+                    </ComboBox>
+                </smartForm:GroupElement>
+            </smartForm:Group>
+            <smartForm:Group title="{i18n>process}">
+                <smartForm:GroupElement>
+                            <ComboBox id="cbProcess" selectionChange="handleSelectionChange" items="{
+				        path: '/MasterdataProcesses',
+				        sorter: { path: 'dataProcessName' },
+                        length: 500   }" change="onInputValidationCB">
+                        <core:Item key="{dataProcessID}" text="{dataProcessName}"/>
+                    </ComboBox>
+                </smartForm:GroupElement>
+            </smartForm:Group>
+            <smartForm:Group title="{i18n>status}*">
+                <smartForm:GroupElement>
+                    <smartField:SmartField id="sfStatus" value="{status}" showLabel="false" entitySet="InterfaceTableData" mandatory="true" fixedValueListValidationEnabled="true" />
+                </smartForm:GroupElement>
+            </smartForm:Group>
+            <smartForm:Group title="{i18n>integrations}">
+                <smartForm:GroupElement elementForLabel= "0">
+                    <MultiComboBox width="1000%" id="cbIntegration" selectionChange="handleSelectionChange" selectionFinish="handleSelectionFinish" items="{
+				        path: '/DataCloudIntegrations',
+				        sorter: { path: 'integrationID' },
+                        length: 500   }">
+                        <core:Item key="{integrationID}" text="{integrationName}"/>
+                    </MultiComboBox>
+                </smartForm:GroupElement>
+            </smartForm:Group>
+        </smartForm:SmartForm>
+        <footer>
+            <OverflowToolbar>
+                <Button id ="bMessagePopover" icon="sap-icon://alert" text="{= ${message>/}.length }" visible="{= ${message>/}.length > 0 }" type="Emphasized" press="onMessagePopoverPress" />
+                <ToolbarSpacer/>
+                <Button text="{i18n>save}" type="Accept" press=".onSaveInterface"/>
+            </OverflowToolbar>
+        </footer>
+    </Page>
+
+</mvc:View>

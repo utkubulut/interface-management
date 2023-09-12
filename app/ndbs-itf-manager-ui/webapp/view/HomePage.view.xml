@@ -1,0 +1,322 @@
+<mvc:View xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:l="sap.ui.layout"
+    xmlns:smarttable="sap.ui.comp.smarttable"
+    xmlns:sfb="sap.ui.comp.smartfilterbar"
+    xmlns:smartField="sap.ui.comp.smartfield"
+    xmlns:smartMultiInput="sap.ui.comp.smartmultiinput"
+    xmlns:tnt="sap.tnt"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    xmlns:smartForm="sap.ui.comp.smartform" controllerName="ndbsitfmanagerui.controller.HomePage" height="100%">
+    <!-- height adjusted to 100% when header is commented out instead of 90% -->
+    <!-- <tnt:ToolHeader design="Solid" height="10%">
+        <ToolbarSpacer width="3%" />
+        <Image src="./img/leanix-logo-vector.png" height="100%" class="sapUiMediumMarginTop" />
+        <Title titleStyle="H5" text="{i18n>appTitle}" wrapping="true" class="sapUiMediumMarginTop" />
+        <ToolbarSpacer />
+        <Image src="./img/Ntt.png" height="40%" class="sapUiMediumMarginTop" />
+        <ToolbarSpacer width="3%"/>
+        <ToolbarSpacer width="0.3%"/>
+        <Button icon="sap-icon://world" press="onOpenLanguageSelection" class="sapUiMediumMarginTop" />
+        <ToolbarSpacer width="2%"/>
+    </tnt:ToolHeader> -->
+
+    <Page showFooter="true" enableScrolling="true">
+        <IconTabBar id="idITB" expanded="true" class="sapUiResponsiveContentPadding" stretchContentHeight="false" tabsOverflowMode="StartAndEnd" expandable="false" tabDensityMode="Cozy" selectedKey="interfaces">
+            <items>
+                <IconTabFilter text="{i18n>applicationsTitle}" key="applications" icon="sap-icon://begin" iconColor="Default">
+                    <sfb:SmartFilterBar id="sfbApplications" entitySet="MasterdataApplications" liveMode="true" showGoOnFB="false" showFilterConfiguration="false" showRestoreButton="false" useToolbar="false">
+                    </sfb:SmartFilterBar>
+                    <smarttable:SmartTable id="stApplications" smartFilterId="sfbApplications" header="{i18n>application}" tableType="ResponsiveTable" entitySet="MasterdataApplications" enableAutoBinding="true" showRowCount="true" class="sapUiResponsiveContentPadding" ignoredFields="dataApplicationID">
+                        <Table id="idAppTable" growing="true" growingThreshold="20" growingScrollToLoad="true" sticky="ColumnHeaders">
+                            <columns>
+                                <Column id="idApplicationName" hAlign="Begin">
+                                    <customData>
+                                        <core:CustomData key="p13nData" value='\{"columnKey": "dataApplicationName", "autoColumnWidth": \{ "visibleProperty": "dataApplicationName" }, "columnIndex": 0, "leadingProperty": "dataApplicationName", "sortProperty": "dataApplicationName", "width": "360px"}' />
+                                    </customData>
+                                    <Text text="{i18n>name}" />
+                                </Column>
+                                <Column id="idApplicationDescription" hAlign="Begin">
+                                    <customData>
+                                        <core:CustomData key="p13nData" value='\{"columnKey": "description", "autoColumnWidth": \{ "visibleProperty": "description" }, "columnIndex": 2, "leadingProperty": "description", "sortProperty": "description", "width": "360px"}' />
+                                    </customData>
+                                    <Text text="{i18n>description}" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Link text="{dataApplicationName}" emphasized="true" target="_blank" href="{datApplicationURL}" />
+
+                                        <ExpandableText class="sapUiTinyMarginBottom sapUiTinyMarginTop" text="{description}" overflowMode="InPlace" maxCharacters="20" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                        <smarttable:customToolbar>
+                            <OverflowToolbar design="Transparent">
+                                <ToolbarSpacer />
+                                <Button text="{i18n>uploadExcel}" type="Accept" press="onUploadDialog" icon="sap-icon://accelerated" />
+                            </OverflowToolbar>
+                        </smarttable:customToolbar>
+                    </smarttable:SmartTable>
+                </IconTabFilter>
+
+                <IconTabFilter text="{i18n>dataObjectsTitle}" key="dataObjects" icon="sap-icon://database" iconColor="Default">
+                    <sfb:SmartFilterBar id="sfbObject" entitySet="MasterdataObjects" showGoOnFB="false" liveMode="true" showFilterConfiguration="false" showRestoreButton="false" useToolbar="false">
+                    </sfb:SmartFilterBar>
+                    <smarttable:SmartTable id="stObject" smartFilterId="sfbObject" header="{i18n>dataObject}" tableType="ResponsiveTable" entitySet="MasterdataObjects" enableAutoBinding="true" showRowCount="true" class="sapUiResponsiveContentPadding" ignoredFields="dataObjectID">
+                        <Table id="idObjectTable" growing="true" growingThreshold="20" growingScrollToLoad="true" sticky="ColumnHeaders">
+                            <columns>
+                                <Column id="idObjectlink" hAlign="Begin">
+                                    <customData>
+                                        <core:CustomData key="p13nData" value='\{"columnKey": "dataObjectName", "autoColumnWidth": \{ "visibleProperty": "dataObjectName" }, "columnIndex": 0, "leadingProperty": "dataObjectName", "sortProperty": "dataObjectName", "width": "360px"}' />
+                                    </customData>
+                                    <Text text="{i18n>name}" />
+                                </Column>
+                                <Column id="idObjectDescription" hAlign="Begin">
+                                    <customData>
+                                        <core:CustomData key="p13nData" value='\{"columnKey": "description", "autoColumnWidth": \{ "visibleProperty": "description" }, "columnIndex": 1, "leadingProperty": "description", "sortProperty": "description", "width": "360px"}' />
+                                    </customData>
+                                    <Text text="{i18n>description}" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Link text="{dataObjectName}" emphasized="true" target="_blank" href="{dataObjectURL}" />
+                                        <ExpandableText class="sapUiTinyMarginBottom sapUiTinyMarginTop" text="{description}" overflowMode="InPlace" maxCharacters="20" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                        <smarttable:customToolbar>
+                            <OverflowToolbar design="Transparent">
+                                <ToolbarSpacer />
+                                <Button text="{i18n>uploadExcel}" type="Accept" press="onUploadDialog" icon="sap-icon://accelerated" />
+                            </OverflowToolbar>
+                        </smarttable:customToolbar>
+                    </smarttable:SmartTable>
+                </IconTabFilter>
+
+                <IconTabFilter text="{i18n>processesTitle}" key="processes" icon="sap-icon://process" iconColor="Default">
+                    <sfb:SmartFilterBar id="sfbProcesses" entitySet="MasterdataProcesses" showGoOnFB="false" liveMode="true" showFilterConfiguration="false" showRestoreButton="false" useToolbar="false">
+                    </sfb:SmartFilterBar>
+                    <smarttable:SmartTable id="idSTProcesses" smartFilterId="sfbProcesses" header="{i18n>process}" tableType="ResponsiveTable" entitySet="MasterdataProcesses" enableAutoBinding="true" showRowCount="true" class="sapUiResponsiveContentPadding" ignoredFields="dataProcessID">
+                        <Table id="idProcessTable" growing="true" growingThreshold="20" growingScrollToLoad="true" sticky="ColumnHeaders">
+                            <columns>
+                                <Column id="idProcessName" hAlign="Begin">
+                                    <customData>
+                                        <core:CustomData key="p13nData" value='\{"columnKey": "dataProcessName", "autoColumnWidth": \{ "visibleProperty": "dataProcessName" }, "columnIndex": 0, "leadingProperty": "dataProcessName", "sortProperty": "dataProcessName", "width": "360px"}' />
+                                    </customData>
+                                    <Text text="{i18n>name}" />
+                                </Column>
+                                <Column id="idProcessDesc" hAlign="Begin">
+                                    <customData>
+                                        <core:CustomData key="p13nData" value='\{"columnKey": "description", "autoColumnWidth": \{ "visibleProperty": "description" }, "columnIndex": 1, "leadingProperty": "description", "sortProperty": "description", "width": "360px"}' />
+                                    </customData>
+                                    <Text text="{i18n>description}" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Link text="{dataProcessName}" emphasized="true" target="_blank" href="{dataProcessURL}" />
+                                        <ExpandableText class="sapUiTinyMarginBottom sapUiTinyMarginTop" text="{description}" overflowMode="InPlace" maxCharacters="20" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                        <smarttable:customToolbar>
+                            <OverflowToolbar design="Transparent">
+                                <ToolbarSpacer />
+                                <Button text="{i18n>uploadExcel}" type="Accept" press="onUploadDialog" icon="sap-icon://accelerated" />
+                            </OverflowToolbar>
+                        </smarttable:customToolbar>
+                    </smarttable:SmartTable>
+                </IconTabFilter>
+                <IconTabSeparator />
+                <IconTabFilter text="{i18n>cloudIntegrationTitle}" key="cloudIntegration" icon="sap-icon://cloud" iconColor="Default">
+                    <sfb:SmartFilterBar id="sfbCloudIntegration" entitySet="DataCloudIntegrations" showGoOnFB="false" showFilterConfiguration="false" showRestoreButton="false" useToolbar="false" liveMode="true">
+                    </sfb:SmartFilterBar>
+                    <smarttable:SmartTable id="stCloudIntegration" smartFilterId="sfbCloudIntegration" tableType="ResponsiveTable" header="{i18n>cloudIntegration}" entitySet="DataCloudIntegrations" enableAutoBinding="true" showRowCount="true" class="sapUiResponsiveContentPadding">
+                        <Table id="tCloudIntegration" growing="true" growingThreshold="20" growingScrollToLoad="true" sticky="ColumnHeaders">
+                            <columns>
+                                <Column id="idIntegrationName" hAlign="Begin">
+                                    <customData>
+                                        <core:CustomData key="p13nData" value='\{"columnKey": "integrationName", "autoColumnWidth": \{ "visibleProperty": "integrationName" }, "columnIndex": 0, "leadingProperty": "integrationName", "sortProperty": "integrationName", "width": "360px"}' />
+                                    </customData>
+                                    <Text text="{i18n>name}" />
+                                </Column>
+                                <Column id="iCIDesc" hAlign="Begin">
+                                    <customData>
+                                        <core:CustomData key="p13nData" value='\{"columnKey": "description", "autoColumnWidth": \{ "visibleProperty": "description" }, "columnIndex": 3, "leadingProperty": "description", "sortProperty": "description", "width": "360px"}' />
+                                    </customData>
+                                    <Text text="{i18n>description}" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Link text="{integrationName}" emphasized="true" target="_blank" href="{integrationURL}" />
+                                        <ExpandableText class="sapUiTinyMarginBottom sapUiTinyMarginTop" text="{description}" overflowMode="InPlace" maxCharacters="20" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </smarttable:SmartTable>
+                </IconTabFilter>
+                <IconTabSeparator />
+                <IconTabFilter text="{i18n>interfaceTitle}" key="interfaces" icon="sap-icon://combine" iconColor="Default">
+                    <sfb:SmartFilterBar id="sfbInterfaces" entitySet="InterfaceTableData" showGoOnFB="false" showFilterConfiguration="false" showRestoreButton="false" useToolbar="false" liveMode="true">
+                        <sfb:controlConfiguration >
+                            <sfb:ControlConfiguration key="customReceiver" label="Receiver" width="300px" visibleInAdvancedArea="true">
+                                <sfb:customControl>
+                                    <MultiComboBox id="cbReceiver" showSecondaryValues="true" items="{
+				        path: '/ReceiverVH',
+				        sorter: { path: 'name' }}">
+                                        <core:ListItem key="{ID}" text="{name}" />
+                                    </MultiComboBox>
+                                </sfb:customControl>
+                            </sfb:ControlConfiguration>
+                            <sfb:ControlConfiguration key="customIntegration" label="Integration" width="300px" visibleInAdvancedArea="true">
+                                <sfb:customControl>
+                                    <MultiComboBox id="cbIntegration" showSecondaryValues="true" items="{
+				        path: '/IntegrationVH',
+				        sorter: { path: 'integrationName'}}">
+                                        <core:ListItem key="{integrationID}" text="{integrationName}" />
+                                    </MultiComboBox>
+                                </sfb:customControl>
+                            </sfb:ControlConfiguration>
+                        <sfb:ControlConfiguration key="customFlow" label="Flow" width="300px" visibleInAdvancedArea="true">
+                            <sfb:customControl>
+                                <MultiComboBox id="cbFlow" showSecondaryValues="true" items="{
+				        path: '/InterfaceTableDataFlowsVH',
+				        sorter: { path: 'flow'}}">
+                                    <core:ListItem key="{flow}" text="{flow}" />
+                                </MultiComboBox>
+                            </sfb:customControl>
+                        </sfb:ControlConfiguration>
+                    </sfb:controlConfiguration>
+                </sfb:SmartFilterBar>
+                <smarttable:SmartTable id="stInterfaces" smartFilterId="sfbInterfaces" beforeRebindTable="onBeforeRebindTable" header="{i18n>interfaces}" entitySet="InterfaceTableData" tableType="ResponsiveTable" class="sapUiResponsiveContentPadding" useVariantManagement="true" useTablePersonalisation="true" showRowCount="true" enableAutoBinding="true">
+                    <Table id="tInterfaces" mode="MultiSelect" growing="true" growingThreshold="20" growingScrollToLoad="true" sticky="ColumnHeaders" updateFinished="onUpdateFinished">
+                        <columns>
+                            <Column id="iCInterfaceDesc" hAlign="Begin">
+                                <customData>
+                                    <core:CustomData key="p13nData" value='\{"columnKey": "description", "autoColumnWidth": \{ "visibleProperty": "description" }, "columnIndex": 1, "leadingProperty": "description", "sortProperty": "description", "width": "360px"}' />
+                                    <core:CustomData key="remember" value="true" />
+                                </customData>
+                                <Text text="{i18n>description}" />
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem type="Navigation" press="onNavToEdit">
+                                <cells>
+                                    <ExpandableText class="sapUiTinyMarginBottom sapUiTinyMarginTop" text="{description}" overflowMode="InPlace" maxCharacters="20" />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                    <smarttable:customToolbar>
+                        <OverflowToolbar design="Transparent">
+                            <ToolbarSpacer />
+                            <Button text="{i18n>AddCloudIntegration}" icon="sap-icon://cloud" type="Default" press="onAddCloud" />
+                            <Button text="{i18n>allSetReady}" type="Accept" press="onStatusReady" icon="sap-icon://status-positive" />
+                            <Button text="{i18n>Delete}" type="Reject" press="onDelete" icon="sap-icon://delete" />
+                            <Button text="{i18n>uploadExcel}" type="Accept" press="onUploadDialog" icon="sap-icon://accelerated" />
+                        </OverflowToolbar>
+                    </smarttable:customToolbar>
+                </smarttable:SmartTable>
+            </IconTabFilter>
+
+            <IconTabFilter text="{i18n>createNewInterfaceButton}" key="Create" icon="sap-icon://create-form" iconColor="Positive">
+                <!-- <smartForm:SmartForm id="idSF" title="{i18n>createNewInterfaceTitle}" editTogglable="true" validationMode="Async" editable="true">
+                        <smartForm:layout>
+                            <smartForm:ColumnLayout columnsM="2" columnsL="3" columnsXL="3"/>
+                        </smartForm:layout>
+                        <smartForm:Group>
+                            <smartForm:GroupElement>
+                                <smartField:SmartField id="sfName" textLabel="{i18n>name}" value="{name}" entitySet="Interfaces"/>
+                            </smartForm:GroupElement>
+                            <smartForm:GroupElement>
+                                <smartField:SmartField id="sfSender" textLabel="{i18n>sender}" value="{dataApplicationName}" entitySet="MasterdataApplications" change="onInputValidation" />
+                            </smartForm:GroupElement>
+                            <smartForm:GroupElement>
+                                <smartMultiInput:SmartMultiInput id="sfReceiver" textLabel="{i18n>receiver}" value="{dataApplicationID}" entitySet="MasterdataApplications" supportRanges="true" />
+                            </smartForm:GroupElement>
+                            <smartForm:GroupElement>
+                                <smartField:SmartField id="sfDescription" textLabel="{i18n>description}" value="{description}" entitySet="Interfaces"/>
+                            </smartForm:GroupElement>
+                            <smartForm:GroupElement>
+                                <smartField:SmartField id="sfObject" textLabel="{i18n>dataObject}" value="{dataObjectID}" entitySet="MasterdataObjects" mandatory="false" change="onInputValidation"/>
+                            </smartForm:GroupElement>
+                            <smartForm:GroupElement>
+                                <smartField:SmartField id="sfProcess" textLabel="{i18n>process}" value="{dataProcessID}" entitySet="MasterdataProcesses" valueStateText="{ID}" change="onInputValidation" />
+                            </smartForm:GroupElement>
+                        </smartForm:Group>
+                    </smartForm:SmartForm> -->
+                <form:SimpleForm id="SimpleFormToolbar" editable="true" layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="3" ariaLabelledBy="Title1">
+                    <form:toolbar>
+                        <Toolbar >
+                            <Title text="{i18n>createNewInterfaceTitle}" />
+                            <ToolbarSpacer />
+                        </Toolbar>
+                    </form:toolbar>
+                    <form:content>
+                        <Label text="{i18n>name}" />
+                        <Input id="iName" value="{viewModel>/interfaceForm/name}" liveChange="onInputValidationInput" required="true"/>
+
+                        <Label text="{i18n>description}" />
+                        <Input id="iDescription" value="{viewModel>/interfaceForm/description}" liveChange="onInputValidationInput" required="true"/>
+
+                        <Label text="{i18n>receiver}" />
+                        <MultiComboBox id="mcbReceiver" selectionChange="onInputValidationMCB" required="true" items="{
+				        path: '/MasterdataApplications',
+				        sorter: { path: 'dataApplicationName' },
+                        length: 500 }">
+                            <core:Item key="{dataApplicationID}" text="{dataApplicationName}" />
+                        </MultiComboBox>
+                        <Label text="{i18n>sender}" />
+                        <ComboBox id="cbSender" selectionChange="handleSelectionChange" required="true" items="{
+				        path: '/MasterdataApplications',
+				        sorter: { path: 'dataApplicationName' },
+                        length: 500   }" change="onInputValidationCB">
+                            <core:Item key="{dataApplicationID}" text="{dataApplicationName}" />
+                        </ComboBox>
+
+                        <Label text="{i18n>process}" />
+                        <ComboBox id="cbProcess" selectionChange="handleSelectionChange" items="{
+				        path: '/MasterdataProcesses',
+				        sorter: { path: 'dataProcessName' },
+                        length: 500   }" change="onInputValidationCB">
+                            <core:Item key="{dataProcessID}" text="{dataProcessName}" />
+                        </ComboBox>
+
+                        <Label text="{i18n>object}" />
+                        <ComboBox id="cbObject" selectionChange="handleSelectionChange" items="{
+				        path: '/MasterdataObjects',
+				        sorter: { path: 'dataObjectName' },
+                        length: 500   }" change="onInputValidationCB">
+                            <core:Item key="{dataObjectID}" text="{dataObjectName}" />
+                        </ComboBox>
+                    </form:content>
+                </form:SimpleForm>
+                <Toolbar>
+                    <ToolbarSpacer />
+                    <Button text="{i18n>saveInterfaceDraftButton}" type="Accept" width="260px" press="onSaveInterface" />
+                    <!-- <Button text="{i18n>randomInterface}" type="Accept" width="260px" press="onRandomInterface" />                       -->
+                </Toolbar>
+            </IconTabFilter>
+        </items>
+    </IconTabBar>
+    <footer>
+        <OverflowToolbar>
+            <Button id ="bMessagePopover" icon="sap-icon://alert" text="{= ${message>/}.length }" type="Emphasized" press="onMessagePopoverPress" visible="{= ${message>/}.length > 0 }" />
+        </OverflowToolbar>
+    </footer>
+</Page>
+</mvc:View>

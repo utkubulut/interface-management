@@ -1,0 +1,35 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:upload="sap.m.upload">
+    <Dialog id="diaExcelUpload">
+        <content>
+            <upload:UploadSet id="usExcelAttachments"
+                instantUpload="false"
+                uploadEnabled="true"
+                beforeItemAdded="onCheckFileCount"
+                uploadCompleted="onFileUploadCompleted"
+                fileTypeMismatch="onFileTypeMismatch"
+                fileTypes="XLSX"
+                multiple="false"
+                httpRequestMethod="Put"
+                mode="None">
+                <upload:toolbar>
+                    <OverflowToolbar>
+                        <ToolbarSpacer/>
+                        <Button text="Download Template"
+                            press="onDownloadExcelTemplate"/>
+                        <upload:UploadSetToolbarPlaceholder />
+                    </OverflowToolbar>
+                </upload:toolbar>
+            </upload:UploadSet>
+        </content>
+        <beginButton>
+            <Button text="Execute Upload"
+                press="onExcelUpload"/>
+        </beginButton>
+        <endButton>
+            <Button text="Close"
+                press="onCloseExcelDialog"/>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

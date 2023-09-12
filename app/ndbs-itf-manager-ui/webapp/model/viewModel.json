@@ -1,0 +1,18 @@
+{
+    "receivers": [],
+    "integrations": [],
+    "interfaceForm": {
+        "interfaceID": "",
+        "name": "",
+        "description": "",
+        "status": "",
+        "senderID": "",
+        "dataProcessID": "",
+        "dataObjectID": ""
+    },
+    "message": {
+        "description": "desc",
+        "type": "Error",
+        "title": "message"
+    }
+}
